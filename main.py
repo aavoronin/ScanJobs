@@ -8,11 +8,15 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import winreg
+from proxies import fetch_proxies
+
+proxies = fetch_proxies()
+print(proxies)
 
 # Kill any running Chrome processes
-os.system("taskkill /im chrome.exe /f")
-os.system("taskkill /im chromedriver.exe /f")
-time.sleep(5)  # Wait for Chrome to close
+#os.system("taskkill /im chrome.exe /f")
+#os.system("taskkill /im chromedriver.exe /f")
+#time.sleep(5)  # Wait for Chrome to close
 
 def set_chrome_startup_policy():
     reg_path = r"SOFTWARE\Policies\Google\Chrome"
@@ -70,33 +74,10 @@ chrome_options.binary_location = f"C:/Program Files/Google/Chrome/Application/ch
 chrome_options.add_argument("--remote-debugging-port=9224")
 chrome_options.add_argument("--start-maximized")
 
-"""
-chrome_options.add_argument(f'--user-data-dir={USER_DATA_DIR}')
-chrome_options.add_argument(f'--profile-directory={PROFILE_DIR}')
-
-chrome_options.add_argument("--no-default-browser-check")
-chrome_options.add_argument("--no-first-run")
-chrome_options.add_argument("--disable-popup-blocking")
-chrome_options.add_argument("--disable-infobars")
-chrome_options.add_argument("--disable-notifications")
-chrome_options.add_argument("--disable-session-crashed-bubble")
-chrome_options.add_argument("--disable-features=InfiniteSessionRestore")
-chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-chrome_options.add_experimental_option("useAutomationExtension", False)
-"""
 print("Installing driver")
 latest_release_url = 'https://storage.googleapis.com/chrome-for-testing-public/138.0.7204.4/win64/chromedriver-win64.zip'
 driver_path = "C:/chromedriver/chromedriver-win64/chromedriver.exe"
 #driver_path = ChromeDriverManager().install()
-
-"""
-# Print ChromeDriver version
-try:
-    driver_version_output = subprocess.run([driver_path, "--version"], capture_output=True, text=True)
-    print("ChromeDriver version:", driver_version_output.stdout.strip())
-except Exception as e:
-    print("Failed to get ChromeDriver version:", e)
-"""
 
 # Start Chrome using ChromeDriverManager to avoid version mismatch
 print('driver_path: ', driver_path)
@@ -104,15 +85,6 @@ driver = webdriver.Chrome(service=Service(driver_path), options=chrome_options)
 
 print("Installed driver")
 
-"""
-# Get and print Chrome browser version from user agent
-try:
-    driver.get("chrome://version")
-    chrome_version = driver.execute_script("return navigator.userAgent;")
-    print("Chrome version (from user agent):", chrome_version)
-except Exception as e:
-    print("Failed to get Chrome version:", e)
-"""
 # Wait for Browsec to auto-connect
 driver.get("https://www.google.com")
 print("Opened URL:", driver.current_url)
