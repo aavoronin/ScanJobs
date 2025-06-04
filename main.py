@@ -65,7 +65,7 @@ else:
     print("No processes are locking the path (or not visible via psutil).")
 
 start_url = "https://www.linkedin.com"
-chrome_options = Options()
+chrome_options = Options() #
 chrome_options.binary_location = f"C:/Program Files/Google/Chrome/Application/chrome.exe"
 chrome_options.add_argument("--remote-debugging-port=9224")
 chrome_options.add_argument("--start-maximized")
